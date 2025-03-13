@@ -1,0 +1,7 @@
+chainlit
+requests
+fastapi
+uvicorn
+langchain
+langchain-community
+langchain_ollama

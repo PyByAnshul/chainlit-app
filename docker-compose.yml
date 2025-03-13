@@ -1,0 +1,37 @@
+services:
+  ollama:
+    build:
+      context: .
+      dockerfile: Dockerfile.ollama
+    container_name: ollama
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    entrypoint: >
+      sh -c "ollama serve"
+    networks:
+      - app-network
+
+
+
+  chainlit-app:
+    build: .
+    container_name: chainlit-app
+    volumes:
+      - .:/app 
+    ports:
+      - "8000:8000"
+    command: ["python", "app.py"]
+    depends_on:
+      - ollama
+    networks:
+      - app-network
+
+
+volumes:
+  ollama:
+
+networks:
+  app-network:
+    driver: bridge
